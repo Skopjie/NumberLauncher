@@ -8,11 +8,11 @@ public class TableController : MonoBehaviour
 {
     //es probable que no neceite tantas listas ya que las casillas guardan info
     List<SquareController> squareAllList = new List<SquareController>();
-    List<SquareController> squareEnableList = new List<SquareController>();
-    List<SquareController> squareDisableList = new List<SquareController>();
     List<SquareController> squareRangeList = new List<SquareController>();
+    List<SquareController> squareDisable = new List<SquareController>();
 
     List<int> numbersAvaliableList = new List<int>();
+    List<int> allNumbersAvaliableList = new List<int>();
 
     [SerializeField] const int WIDTH_TABLE = 1300;
     [SerializeField] const int MAX_NUM_SQUARES = 100;
@@ -31,6 +31,7 @@ public class TableController : MonoBehaviour
     [SerializeField] TextMeshProUGUI randomNumberText;
     [SerializeField] RectTransform selectorTransform;
     [SerializeField] Button getSquareButton;
+    [SerializeField] GameObject canvasGameOver;
 
 
     float actualNumberSelected = 0;
@@ -43,7 +44,6 @@ public class TableController : MonoBehaviour
         getSquareButton.onClick.AddListener(() => {
             DeselectAllRandomSquare();
             SelectSquare((int)actualNumberSelected);
-            ShowAreaEnableCartel(GetRandomNumber());
         });
     }
 
@@ -78,18 +78,16 @@ public class TableController : MonoBehaviour
             SquareController newSquareController = newSquare.GetComponent<SquareController>();
             newSquareController.InitSquareData(i);
             squareAllList.Add(newSquareController);
-            squareEnableList.Add(newSquareController);
+
             numbersAvaliableList.Add(i);
+            allNumbersAvaliableList.Add(i);
         }
     }
 
     void ActiveSquareRange() {
         ReadjustCellSize(numberSquareTable);
-        for (int i = 0; i < numberSquareTable; i++) {
-            squareEnableList[i].SetActiveSquare(true);
-        }
-        for (int j = numberSquareTable; j < MAX_NUM_SQUARES; j++) {
-            squareEnableList[j].SetActiveSquare(false);
+        foreach(SquareController sqControl in squareAllList) {
+            sqControl.SetActiveSquare(true);
         }
     }
 
@@ -113,7 +111,7 @@ public class TableController : MonoBehaviour
             }
             cronometroTexto.text = "" + (int)actualNumberSelected;
             float newPos = Mathf.Lerp(-650, 650, actualNumberSelected / MAX_NUM_SQUARES);
-            selectorTransform.localPosition = new Vector2(newPos, 85);
+            selectorTransform.localPosition = new Vector2(newPos, 90);
         }
     }
 
@@ -122,9 +120,10 @@ public class TableController : MonoBehaviour
             Debug.Log(newSquare);
             if (CheckIsSelectedCorrect(newSquare)) {
                 SquareController squareController = squareAllList[newSquare];
-                squareController.SelectSquare();
-                squareDisableList.Add(squareController);
-                squareEnableList.Remove(squareController);
+                squareDisable.Add(squareController);
+                squareController.SelectSquare(randomNumber);
+
+                GetRange(GetRandomNumber());
             }
         }
 
@@ -134,54 +133,53 @@ public class TableController : MonoBehaviour
         if (squareAllList[newSquare].GetIsSquareSelected()) {
             print("GameOver");
             isGameOver = true;
+            ReturnGameNormal();
             return false;
         }
         if(newSquare < numbersBtwRandom.x || newSquare > numbersBtwRandom.y) {
             print("GameOver");
             isGameOver = true;
+            ReturnGameNormal();
             return false;
         }
         return true;
     }
 
+
     void ReturnGameNormal() {
-        squareEnableList.Clear();
-
-        for(int i= 0; i < squareDisableList.Count; i++) {
-            squareDisableList[i].DeselectSquare();
+        squareDisable.Clear();
+        foreach(SquareController sqControl in squareAllList) {
+            sqControl.DeselectSquare();
         }
-        squareDisableList.Clear();
+        numbersAvaliableList.Clear();
+        foreach (int sqControl in allNumbersAvaliableList) {
+            numbersAvaliableList.Add(sqControl);
+        }
 
-        squareEnableList = squareAllList;
         isIncreasing = true;
         actualNumberSelected = 0;
+        GetRandomNumber();
+        isGameOver = false;
     }
 
-    void ShowAreaEnableCartel(int newRandomNumber) {
-        if (!isGameOver) {
-            numbersBtwRandom = new Vector2Int(0, 100);
-
-            for (int i = newRandomNumber - 1; i > 0; i--) {
-                if (squareAllList[i].GetIsSquareSelected()) {
-                    print("Numero izquierda encontrado en posicion " + squareAllList[i].GetSquareId());
-                    numbersBtwRandom.x = i;
-                    break;
+    void GetRange(int newRandomNumber) {
+        numbersBtwRandom = new Vector2Int(0, 100);
+        print(":( "+newRandomNumber);
+        for (int i = 0; i < squareDisable.Count; i++) {
+            if(squareDisable[i].numberSquare > newRandomNumber) {
+                if(i > 1) {
+                    numbersBtwRandom.x = squareDisable[i-1].GetSquareId();
+                }
+                if(i == squareDisable.Count - 1) {
+                    numbersBtwRandom.y = squareDisable[i].GetSquareId();
                 }
             }
+        }
 
-            for (int i = newRandomNumber + 1; i < squareAllList.Count; i++) {
-                if (squareAllList[i].GetIsSquareSelected()) {
-                    print("Numero derecha encontrado en posicion " + squareAllList[i].GetSquareId());
-                    numbersBtwRandom.y = i;
-                    break;
-                }
-            }
-
-            for (int i = numbersBtwRandom.x; i < numbersBtwRandom.y; i++) {
-                if (!squareAllList[i].GetIsSquareSelected()) {
-                    squareAllList[i].SetStatePossibleAnswer();
-                    squareRangeList.Add(squareAllList[i]);
-                }
+        for (int i = numbersBtwRandom.x; i < numbersBtwRandom.y; i++) {
+            if (!squareAllList[i].GetIsSquareSelected()) {
+                squareAllList[i].SetStatePossibleAnswer();
+                squareRangeList.Add(squareAllList[i]);
             }
         }
     }

@@ -1,17 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using TMPro;
 using UnityEngine;
 
 public class SquareController : MonoBehaviour
 {
     [Header("Componentes")]
     [SerializeField] Image squareImage;
-    [SerializeField] Animator squareAnimator;
+    [SerializeField] RectTransform squareTransform;
 
     [Header("Variables")]
     [SerializeField] bool squareIsSelected = false;
     [SerializeField] int idSquare = 0;
+    public int numberSquare = 0;
+
+    [Header("UI")]
+    [SerializeField] TextMeshProUGUI numberIdText;
+
 
     public SquareController(int newIdSquare) {
         InitSquareData(newIdSquare);
@@ -25,13 +31,18 @@ public class SquareController : MonoBehaviour
         return idSquare;
     }
 
-    public void SelectSquare() {
+    public void SelectSquare(int newNumber) {
         squareIsSelected = true;
+        numberSquare = newNumber;
+        numberIdText.text = "" + newNumber;
+        numberIdText.gameObject.SetActive(true);
         squareImage.color = Color.red;
     }
 
     public void DeselectSquare() {
         squareIsSelected = false;
+        numberIdText.gameObject.SetActive(false);
+        numberSquare = 0;
         squareImage.color = Color.white;
     }
 
