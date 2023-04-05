@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
+using DG.Tweening;
 
 public class SquareController : MonoBehaviour
 {
@@ -18,6 +19,10 @@ public class SquareController : MonoBehaviour
     [Header("UI")]
     [SerializeField] TextMeshProUGUI numberIdText;
 
+    private void Start() {
+        //AnimSquare();
+    }
+
 
     public SquareController(int newIdSquare) {
         InitSquareData(newIdSquare);
@@ -25,6 +30,11 @@ public class SquareController : MonoBehaviour
 
     public void InitSquareData(int newIdSquare) {
         idSquare = newIdSquare;
+        numberSquare = newIdSquare;
+    }
+
+    public void AnimSquare() {
+        squareTransform.DOLocalMove(new Vector3(0, 5, 0), 2).SetEase(Ease.InOutSine).SetLoops(1, LoopType.Yoyo);
     }
 
     public int GetSquareId() {

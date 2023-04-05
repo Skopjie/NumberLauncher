@@ -14,7 +14,7 @@ public class TableController : MonoBehaviour
     List<int> numbersAvaliableList = new List<int>();
     List<int> allNumbersAvaliableList = new List<int>();
 
-    [SerializeField] const int WIDTH_TABLE = 1300;
+    [SerializeField] const int WIDTH_TABLE = 775;
     [SerializeField] const int MAX_NUM_SQUARES = 100;
 
     [Header("Variables")]
@@ -25,6 +25,7 @@ public class TableController : MonoBehaviour
     [Header("Componentes")]
     [SerializeField] GridLayoutGroup gridLayout;
     [SerializeField] RectTransform rectTransform;
+    [SerializeField] GameOverUI gameOverUI;
 
     [Header("UI")]
     [SerializeField] TextMeshProUGUI cronometroTexto;
@@ -92,7 +93,7 @@ public class TableController : MonoBehaviour
     }
 
     void ReadjustCellSize(int newNumberSquare) {
-        gridLayout.cellSize = new Vector2(WIDTH_TABLE / newNumberSquare, 100);
+        gridLayout.cellSize = new Vector2(7.45f, 60);
     }
 
     void MoveSelector() {
@@ -109,9 +110,12 @@ public class TableController : MonoBehaviour
                     isIncreasing = true;
                 }
             }
-            cronometroTexto.text = "" + (int)actualNumberSelected;
-            float newPos = Mathf.Lerp(-650, 650, actualNumberSelected / MAX_NUM_SQUARES);
-            selectorTransform.localPosition = new Vector2(newPos, 90);
+            if (cronometroTexto.text != "" + (int)actualNumberSelected) {
+                cronometroTexto.text = "" + (int)actualNumberSelected;
+                //squareAllList[(int)actualNumberSelected].AnimSquare();
+            }
+            float newPos = Mathf.Lerp(-360, 360, actualNumberSelected / MAX_NUM_SQUARES);
+            selectorTransform.localPosition = new Vector2(newPos, 150);
         }
     }
 
@@ -133,20 +137,20 @@ public class TableController : MonoBehaviour
         if (squareAllList[newSquare].GetIsSquareSelected()) {
             print("GameOver");
             isGameOver = true;
-            ReturnGameNormal();
+            gameOverUI.ShowCanvas();
             return false;
         }
         if(newSquare < numbersBtwRandom.x || newSquare > numbersBtwRandom.y) {
             print("GameOver");
             isGameOver = true;
-            ReturnGameNormal();
+            gameOverUI.ShowCanvas();
             return false;
         }
         return true;
     }
 
 
-    void ReturnGameNormal() {
+    public void ReturnGameNormal() {
         squareDisable.Clear();
         foreach(SquareController sqControl in squareAllList) {
             sqControl.DeselectSquare();
@@ -156,25 +160,41 @@ public class TableController : MonoBehaviour
             numbersAvaliableList.Add(sqControl);
         }
 
+        isGameOver = false;
         isIncreasing = true;
         actualNumberSelected = 0;
+        numbersBtwRandom = new Vector2Int(0, 100);
         GetRandomNumber();
-        isGameOver = false;
     }
 
     void GetRange(int newRandomNumber) {
         numbersBtwRandom = new Vector2Int(0, 100);
+        int higherNumber = 100;
+        int lowerNumber = 0;
+        SquareController higher = new SquareController(100);
+        SquareController lower= new SquareController(0);
+
         print(":( "+newRandomNumber);
+
         for (int i = 0; i < squareDisable.Count; i++) {
-            if(squareDisable[i].numberSquare > newRandomNumber) {
-                if(i > 1) {
-                    numbersBtwRandom.x = squareDisable[i-1].GetSquareId();
+            if (squareDisable[i].numberSquare > newRandomNumber) {
+                if(higherNumber > squareDisable[i].numberSquare) {
+                    higherNumber = squareDisable[i].numberSquare;
+                    higher = squareDisable[i];
+                    numbersBtwRandom.y = higherNumber;
                 }
-                if(i == squareDisable.Count - 1) {
-                    numbersBtwRandom.y = squareDisable[i].GetSquareId();
+            }
+            else if (squareDisable[i].numberSquare < newRandomNumber) {
+                if (lowerNumber < squareDisable[i].numberSquare) {
+                    lowerNumber = squareDisable[i].numberSquare;
+                    lower = squareDisable[i];
+                    numbersBtwRandom.x = lowerNumber;
                 }
             }
         }
+
+        Debug.Log(lower.numberSquare + " / " + higher.numberSquare);
+        numbersBtwRandom = new Vector2Int(lower.GetSquareId(), higher.GetSquareId());
 
         for (int i = numbersBtwRandom.x; i < numbersBtwRandom.y; i++) {
             if (!squareAllList[i].GetIsSquareSelected()) {
@@ -182,6 +202,8 @@ public class TableController : MonoBehaviour
                 squareRangeList.Add(squareAllList[i]);
             }
         }
+        //Poner que lo gris sea donde no se puede
+
     }
 
     void DeselectAllRandomSquare() {
@@ -195,10 +217,13 @@ public class TableController : MonoBehaviour
     int GetRandomNumber() {
         if (!isGameOver) {
             randomNumber = Random.Range(0, numbersAvaliableList.Count);
-            randomNumberText.text = "" + numbersAvaliableList[randomNumber];
+
+            int newRandomNumber = numbersAvaliableList[randomNumber];
+            randomNumberText.text = "" + newRandomNumber;
             numbersAvaliableList.RemoveAt(randomNumber);
 
-            return randomNumber;
+            randomNumber = newRandomNumber;
+            return newRandomNumber;
         }
         return 0;
     }

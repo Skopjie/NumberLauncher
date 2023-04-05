@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "RF8MB08E4YK",
         "name": "com.CarpetGames.NumberLaunched",
-        "processId": 7605,
+        "processId": 30592,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -12,6 +12,48 @@
             "deviceId": "RF8MB08E4YK",
             "name": "com.CarpetGames.NumberLaunched",
             "processId": 7605,
+            "exited": true
+        },
+        {
+            "deviceId": "RF8MB08E4YK",
+            "name": "com.CarpetGames.NumberLaunched",
+            "processId": 4250,
+            "exited": true
+        },
+        {
+            "deviceId": "RF8MB08E4YK",
+            "name": "com.CarpetGames.NumberLaunched",
+            "processId": 15886,
+            "exited": true
+        },
+        {
+            "deviceId": "RF8MB08E4YK",
+            "name": "com.sec.android.app.launcher",
+            "processId": 8873,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8MB08E4YK",
+            "name": "com.CarpetGames.NumberLaunched",
+            "processId": 20449,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8MB08E4YK",
+            "name": "com.CarpetGames.NumberLaunched",
+            "processId": 1642,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8MB08E4YK",
+            "name": "com.CarpetGames.NumberLaunched",
+            "processId": 26295,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8MB08E4YK",
+            "name": "com.CarpetGames.NumberLaunched",
+            "processId": 30592,
             "exited": false
         }
     ],
