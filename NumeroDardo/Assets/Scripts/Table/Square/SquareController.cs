@@ -5,72 +5,90 @@ using TMPro;
 using UnityEngine;
 using DG.Tweening;
 
+public enum SquareState { 
+    Seleccionada,
+    Disponible,
+    NoDisponible
+}
+
 public class SquareController : MonoBehaviour
 {
+    //squareTransform.DOLocalMove(new Vector3(0, 5, 0), 2).SetEase(Ease.InOutSine).SetLoops(1, LoopType.Yoyo);
+
     [Header("Componentes")]
     [SerializeField] Image squareImage;
     [SerializeField] RectTransform squareTransform;
 
     [Header("Variables")]
-    [SerializeField] bool squareIsSelected = false;
+    [SerializeField] SquareState squareState;
     [SerializeField] int idSquare = 0;
     public int numberSquare = 0;
+    [SerializeField] Vector2 textPosition = new Vector2(0,80);
+    [SerializeField] Vector2 textPositionDown = new Vector2(0,-80);
 
     [Header("UI")]
     [SerializeField] TextMeshProUGUI numberIdText;
-
-    private void Start() {
-        //AnimSquare();
-    }
-
+    [SerializeField] RectTransform rectTransformText;
 
     public SquareController(int newIdSquare) {
         InitSquareData(newIdSquare);
     }
 
     public void InitSquareData(int newIdSquare) {
+        if (squareImage != null)
+            SetSquareState(SquareState.Disponible);
+
         idSquare = newIdSquare;
         numberSquare = newIdSquare;
-    }
-
-    public void AnimSquare() {
-        squareTransform.DOLocalMove(new Vector3(0, 5, 0), 2).SetEase(Ease.InOutSine).SetLoops(1, LoopType.Yoyo);
     }
 
     public int GetSquareId() {
         return idSquare;
     }
 
+    public SquareState GetSquareState() {
+        return squareState;
+    }
+
+    public void SetSquareState(SquareState newSquareState) {
+        squareState = newSquareState;
+        ChangeColorSquare();
+    }
+
+    void ChangeColorSquare() {
+        switch (squareState) {
+            case SquareState.Seleccionada:
+                squareImage.color = Color.red;
+                break;
+
+            case SquareState.Disponible:
+                squareImage.color = Color.white;
+                break;
+
+            case SquareState.NoDisponible:
+                squareImage.color = Color.grey;
+                break;
+        }
+    }
+
     public void SelectSquare(int newNumber) {
-        squareIsSelected = true;
+        SetNumberTextPosition();
         numberSquare = newNumber;
         numberIdText.text = "" + newNumber;
         numberIdText.gameObject.SetActive(true);
-        squareImage.color = Color.red;
+        SetSquareState(SquareState.Seleccionada);
+    }
+
+    void SetNumberTextPosition() {
+        if (idSquare % 2 == 0)
+            rectTransformText.localPosition = textPosition;
+        else
+            rectTransformText.localPosition = textPositionDown;
     }
 
     public void DeselectSquare() {
-        squareIsSelected = false;
-        numberIdText.gameObject.SetActive(false);
         numberSquare = 0;
-        squareImage.color = Color.white;
-    }
-
-    public bool GetIsSquareSelected() {
-        return squareIsSelected;
-    }
-
-    public void SetStatePossibleAnswer() {
-        squareImage.color = Color.grey;
-    }
-
-    public void SetActiveSquare(bool newActive) {
-        if (newActive) {
-            squareImage.color = Color.white;
-            gameObject.SetActive(true);
-        }
-        else {
-            gameObject.SetActive(false);
-        }
+        numberIdText.gameObject.SetActive(false);
+        SetSquareState(SquareState.Disponible);
     }
 }

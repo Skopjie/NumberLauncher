@@ -17,7 +17,7 @@ public class MainMenuUI : MonoBehaviour
 
     private void Awake() {
         playButton.onClick.AddListener(() => {
-            HideCanvas();
+            PlayGame();
         });
 
         howButton.onClick.AddListener(() => {
@@ -33,7 +33,9 @@ public class MainMenuUI : MonoBehaviour
     }
 
     void PlayGame() {
-
+        gameObject.SetActive(false);
+        gameCanvas.SetActive(true);
+        CompleteAchievment(GPGSIds.achievement_10_points);
     }
 
     void ShowAchievementsUI() {
@@ -49,15 +51,10 @@ public class MainMenuUI : MonoBehaviour
     }
 
     void ShowMoreGames() {
-        Application.OpenURL("market://details?q=pname:com.Skopjie");
+        Application.OpenURL ("market://developer?id=Skopjie");
     }
 
     public void ShowCanvas() {
         gameObject.SetActive(true);
-    }
-
-    public void HideCanvas() {
-        gameObject.SetActive(false);
-        gameCanvas.SetActive(true);
     }
 }
