@@ -28,19 +28,14 @@ public class GameOverUI : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    public void HideCanvas() {
-        gameObject.SetActive(false);
-        gameCanvas.SetActive(false);
-    }
-
     public void Play() {
         gameObject.SetActive(false);
-        tableController.ReturnGameNormal();
+        tableController.StartGame();
     } 
 
     public void Exit() {
+        gameObject.SetActive(false);
         tableController.ReturnGameNormal();
-        HideCanvas();
-        mainMenu.ShowCanvas();
+        ChangeMenuController.Instance.ShowMenuFade(MenusInteraction.gameToMain);
     }
 }

@@ -25,15 +25,15 @@ public class GPGManager : MonoBehaviour
 
 
         PlayGamesPlatform.Instance.Authenticate((code) => {
-            statusText.text = "Wait...";
+            //statusText.text = "Wait...";
 
             if (code == SignInStatus.Success) {
-                statusText.text = "Good";
-                nameText.text = Social.localUser.userName + " / " + Social.localUser.id;
+                //statusText.text = "Good";
+                //nameText.text = Social.localUser.userName + " / " + Social.localUser.id;
                 // Continue with Play Games Services
             }
             else {
-                statusText.text = "Fail: " + code;
+                //statusText.text = "Fail: " + code;
                 // Disable your integration with Play Games Services or show a login button
                 // to ask users to sign-in. Clicking it should call
                 // PlayGamesPlatform.Instance.ManuallyAuthenticate(ProcessAuthentication).

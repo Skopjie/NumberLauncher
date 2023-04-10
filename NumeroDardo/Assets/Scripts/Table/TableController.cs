@@ -37,12 +37,13 @@ public class TableController : MonoBehaviour
 
 
     Vector2Int numbersBtwRandom = new Vector2Int(0,100);
-    public bool isGameOver = false;
+    public bool isGameOver = true;
     int randomNumber = 0;
     int numberClicks = 0;
 
     private void Awake() {
         instace = this;
+        isGameOver = true;
 
         getSquareButton.onClick.AddListener(() => {
             DeselectAllRandomSquare();
@@ -86,7 +87,9 @@ public class TableController : MonoBehaviour
 
     void SelectSquare(int newSquare) {
         if (!isGameOver) {
-            Debug.Log(newSquare);
+            if(newSquare == 50) {
+                newSquare = 49;
+            }
             if (CheckSquareIsAvailable(newSquare)) {
                 SquareController squareController = squareAllList[newSquare];
                 squareDisable.Add(squareController);
@@ -127,10 +130,14 @@ public class TableController : MonoBehaviour
 
         numberClicks = 0;
         numberClicksText.text = "" + numberClicks;
-        isGameOver = false;
         numbersBtwRandom = new Vector2Int(0, 100);
         GetRandomNumber();
         selectorController.ReturnGameNormal();
+    }
+
+    public void StartGame() {
+        isGameOver = false;
+        ReturnGameNormal();
     }
 
     void GetSquareRangeAvailable() {

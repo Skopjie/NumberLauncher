@@ -2097,7 +2097,10 @@ MonoBehaviour:
   leftHowButton: {fileID: 0}
   pageNumberText: {fileID: 0}
   gameCanvas: {fileID: 1353039273}
+  canvasGroupGame: {fileID: 0}
+  mainCanvas: {fileID: 0}
   howCanvas: {fileID: 0}
+  canvasGroupMain: {fileID: 0}
   capturasImage: []
 --- !u!114 &824850554
 MonoBehaviour:
@@ -4463,13 +4466,14 @@ GameObject:
   - component: {fileID: 1353039276}
   - component: {fileID: 1353039275}
   - component: {fileID: 1353039274}
+  - component: {fileID: 1353039277}
   m_Layer: 5
   m_Name: PanelGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1353039274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4533,6 +4537,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 881, y: 1688}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1353039277
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353039273}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1369406452
 GameObject:
   m_ObjectHideFlags: 0
@@ -5092,6 +5108,7 @@ GameObject:
   - component: {fileID: 1497866511}
   - component: {fileID: 1497866510}
   - component: {fileID: 1497866512}
+  - component: {fileID: 1497866513}
   m_Layer: 5
   m_Name: PanelMainMenu
   m_TagString: Untagged
@@ -5182,12 +5199,27 @@ MonoBehaviour:
   rightHowButton: {fileID: 1413834964}
   leftHowButton: {fileID: 1272369690}
   pageNumberText: {fileID: 15990623}
-  gameCanvas: {fileID: 1353039273}
-  howCanvas: {fileID: 824850551}
+  gameCanvas: {fileID: 1353039276}
+  canvasGroupGame: {fileID: 1353039277}
+  mainCanvas: {fileID: 1497866509}
+  howCanvas: {fileID: 824850556}
+  canvasGroupMain: {fileID: 1497866513}
   capturasImage:
   - {fileID: 2059836093}
   - {fileID: 1087597818}
   - {fileID: 1369406452}
+--- !u!225 &1497866513
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497866508}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1504566313
 GameObject:
   m_ObjectHideFlags: 0

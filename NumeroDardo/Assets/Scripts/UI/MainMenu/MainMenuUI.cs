@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 using UnityEngine;
 
 public class MainMenuUI : MonoBehaviour
@@ -19,9 +20,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] Button leftHowButton;
     [SerializeField] TextMeshProUGUI pageNumberText;
 
-    [Header("Componentes")]
-    [SerializeField] GameObject gameCanvas;
-    [SerializeField] GameObject howCanvas;
+
     [SerializeField] GameObject[] capturasImage;
 
 
@@ -59,21 +58,16 @@ public class MainMenuUI : MonoBehaviour
         });
     }
 
-    private void Start() {
-    }
-
     void PlayGame() {
-        gameObject.SetActive(false);
-        gameCanvas.SetActive(true);
+        ChangeMenuController.Instance.ShowMenuFade(MenusInteraction.mainToGame);
     }
 
     void ShowHowToPlay() {
-        gameObject.SetActive(false);
-        howCanvas.SetActive(true);
+        ChangeMenuController.Instance.ShowMenuFade(MenusInteraction.mainToHow);
     }
+
     void ShowMainMenu() {
-        gameObject.SetActive(true);
-        howCanvas.SetActive(false);
+        ChangeMenuController.Instance.ShowMenuFade(MenusInteraction.howToMain);
     }
 
 
