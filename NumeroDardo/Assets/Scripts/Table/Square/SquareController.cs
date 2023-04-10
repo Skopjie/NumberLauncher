@@ -23,8 +23,14 @@ public class SquareController : MonoBehaviour
     [SerializeField] SquareState squareState;
     [SerializeField] int idSquare = 0;
     public int numberSquare = 0;
+    [SerializeField] float timeChangeColor;
+
     [SerializeField] Vector2 textPosition = new Vector2(0,80);
     [SerializeField] Vector2 textPositionDown = new Vector2(0,-80);
+
+    [SerializeField] Color seleccionadaColor;
+    [SerializeField] Color DisponibleColor;
+    [SerializeField] Color NoDisponibleColor;
 
     [Header("UI")]
     [SerializeField] TextMeshProUGUI numberIdText;
@@ -58,17 +64,22 @@ public class SquareController : MonoBehaviour
     void ChangeColorSquare() {
         switch (squareState) {
             case SquareState.Seleccionada:
-                squareImage.color = Color.red;
+                squareImage.DOColor(seleccionadaColor, timeChangeColor);
                 break;
 
             case SquareState.Disponible:
-                squareImage.color = Color.white;
+                squareImage.DOColor(DisponibleColor, timeChangeColor);
                 break;
 
             case SquareState.NoDisponible:
-                squareImage.color = Color.grey;
+                squareImage.DOColor(NoDisponibleColor, timeChangeColor);
                 break;
         }
+    }
+
+    public void AnimSquare() {
+        squareImage.color = Color.green;
+        ChangeColorSquare();
     }
 
     public void SelectSquare(int newNumber) {

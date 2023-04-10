@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "RF8MB08E4YK",
         "name": "com.CarpetGames.NumberLaunched",
-        "processId": 14936,
+        "processId": 14592,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -60,6 +60,24 @@
             "deviceId": "RF8MB08E4YK",
             "name": "com.CarpetGames.NumberLaunched",
             "processId": 14936,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8MB08E4YK",
+            "name": "com.CarpetGames.NumberLaunched",
+            "processId": 24910,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8MB08E4YK",
+            "name": "com.CarpetGames.NumberLaunched",
+            "processId": 3008,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8MB08E4YK",
+            "name": "com.CarpetGames.NumberLaunched",
+            "processId": 14592,
             "exited": false
         }
     ],

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class SelectorController : MonoBehaviour
 {
+    public List<SquareController> squareAllList = new List<SquareController>();
+
     [Header("Variables")]
     [SerializeField] float selectorSpeed;
 
@@ -19,9 +21,11 @@ public class SelectorController : MonoBehaviour
 
     private void Start() {
         numberSquare = TableController.Instance.numberSquareTable;
+
+        squareAllList = TableController.Instance.squareAllList;
     }
 
-    void Update() {
+    void FixedUpdate() {
         MoveSelector();
     }
 
@@ -43,7 +47,7 @@ public class SelectorController : MonoBehaviour
                     isIncreasing = true;
                 }
             }
-            float newPosX = Mathf.Lerp(-360, 360, actualNumberSelected / numberSquare);
+            float newPosX = Mathf.Lerp(-370, 370, actualNumberSelected / numberSquare);
             selectorTransform.localPosition = new Vector2(newPosX, selectorTransform.localPosition.y);
 
             SetChronometerText();
@@ -51,8 +55,11 @@ public class SelectorController : MonoBehaviour
     }
 
     void SetChronometerText() {
-        if (cronometroTexto.text != "" + (int)actualNumberSelected)
+        if (cronometroTexto.text != "" + (int)actualNumberSelected) {
             cronometroTexto.text = "" + (int)actualNumberSelected;
+            if ((int)actualNumberSelected < 50)
+                squareAllList[(int)actualNumberSelected].AnimSquare();
+        }
     }
 
     public void ReturnGameNormal() {

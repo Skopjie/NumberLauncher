@@ -9,7 +9,7 @@ public class TableController : MonoBehaviour
     public static TableController Instance { get { return instace; } }
     private static TableController instace;
 
-    List<SquareController> squareAllList = new List<SquareController>();
+    public List<SquareController> squareAllList = new List<SquareController>();
     List<SquareController> squareRangeList = new List<SquareController>();
     List<SquareController> squareDisable = new List<SquareController>();
 
@@ -21,6 +21,7 @@ public class TableController : MonoBehaviour
     public float widthTable = 100;
     [SerializeField] GameObject squarePrefab;
 
+
     [Header("Componentes")]
     [SerializeField] SelectorController selectorController;
     [SerializeField] GridLayoutGroup gridLayout;
@@ -29,13 +30,16 @@ public class TableController : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] TextMeshProUGUI randomNumberText;
+    [SerializeField] TextMeshProUGUI numberClicksText;
     [SerializeField] Button getSquareButton;
     [SerializeField] GameObject canvasGameOver;
+
 
 
     Vector2Int numbersBtwRandom = new Vector2Int(0,100);
     public bool isGameOver = false;
     int randomNumber = 0;
+    int numberClicks = 0;
 
     private void Awake() {
         instace = this;
@@ -43,6 +47,7 @@ public class TableController : MonoBehaviour
         getSquareButton.onClick.AddListener(() => {
             DeselectAllRandomSquare();
             SelectSquare(selectorController.GetActualNumber());
+            AddClick();
         });
     }
 
@@ -63,7 +68,7 @@ public class TableController : MonoBehaviour
     }
 
     void InitTable() {
-        ReadjustCellSize(100);
+        ReadjustCellSize();
         for (int i= 0; i< numberSquareTable; i++) {
             GameObject newSquare = Instantiate(squarePrefab, gameObject.transform);
             SquareController newSquareController = newSquare.GetComponent<SquareController>();
@@ -75,7 +80,7 @@ public class TableController : MonoBehaviour
         }
     }
 
-    void ReadjustCellSize(int newNumberSquare) {
+    void ReadjustCellSize() {
         gridLayout.cellSize = new Vector2(widthTable/numberSquareTable, 60);
     }
 
@@ -104,6 +109,7 @@ public class TableController : MonoBehaviour
     }
 
     void GameOver() {
+        AchievementsController.Instance.DoLeadBoardPost(numberClicks);
         isGameOver = true;
         gameOverUI.ShowCanvas();
     }
@@ -119,6 +125,8 @@ public class TableController : MonoBehaviour
             numbersAvaliableList.Add(sqControl);
         }
 
+        numberClicks = 0;
+        numberClicksText.text = "" + numberClicks;
         isGameOver = false;
         numbersBtwRandom = new Vector2Int(0, 100);
         GetRandomNumber();
@@ -126,10 +134,10 @@ public class TableController : MonoBehaviour
     }
 
     void GetSquareRangeAvailable() {
-        numbersBtwRandom = new Vector2Int(0, 100);
+        numbersBtwRandom = new Vector2Int(0, numberSquareTable);
         int higherNumber = 100;
         int lowerNumber = 0;
-        SquareController higher = new SquareController(100);
+        SquareController higher = new SquareController(numberSquareTable);
         SquareController lower= new SquareController(0);
 
         GetRandomNumber();
@@ -171,6 +179,14 @@ public class TableController : MonoBehaviour
                 squControl.SetSquareState(SquareState.NoDisponible);
         }
         squareRangeList.Clear();
+    }
+
+    void AddClick() {
+        if (!isGameOver) {
+            numberClicks++;
+            numberClicksText.text = "" + numberClicks;
+            AchievementsController.Instance.CheckAchievement(numberClicks);
+        }
     }
 
     void GetRandomNumber() {
