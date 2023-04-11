@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
@@ -40,6 +39,9 @@ public class TableController : MonoBehaviour
     public bool isGameOver = true;
     int randomNumber = 0;
     int numberClicks = 0;
+
+    SquareController higher;
+    SquareController lower;
 
     private void Awake() {
         instace = this;
@@ -91,6 +93,7 @@ public class TableController : MonoBehaviour
                 newSquare = 49;
             }
             if (CheckSquareIsAvailable(newSquare)) {
+                AudioManager.Instance.PlaySFX(Sound.addNumber);
                 SquareController squareController = squareAllList[newSquare];
                 squareDisable.Add(squareController);
                 squareController.SelectSquare(randomNumber);
@@ -111,7 +114,60 @@ public class TableController : MonoBehaviour
         return true;
     }
 
+    void GetSquareRangeAvailable() {
+        numbersBtwRandom = new Vector2Int(0, numberSquareTable);
+        int higherNumber = 100;
+        int lowerNumber = 0;
+        higher = new SquareController(numberSquareTable);
+        lower = new SquareController(0);
+
+        GetRandomNumber();
+
+        for (int i = 0; i < squareDisable.Count; i++) {
+            if (squareDisable[i].numberSquare > randomNumber) {
+                if (higherNumber >= squareDisable[i].numberSquare) {
+                    higherNumber = squareDisable[i].numberSquare;
+                    higher = squareDisable[i];
+                    numbersBtwRandom.y = higherNumber;
+                }
+            }
+            else if (squareDisable[i].numberSquare < randomNumber) {
+                if (lowerNumber <= squareDisable[i].numberSquare) {
+                    lowerNumber = squareDisable[i].numberSquare;
+                    lower = squareDisable[i];
+                    numbersBtwRandom.x = lowerNumber;
+                }
+            }
+        }
+
+        numbersBtwRandom = new Vector2Int(lower.GetSquareId(), higher.GetSquareId());
+        DrawSquareTable();
+    }
+
+    void DrawSquareTable() {
+        for (int i = numbersBtwRandom.x; i < numbersBtwRandom.y; i++) {
+            if (squareAllList[i].GetSquareState() != SquareState.Seleccionada) {
+                squareAllList[i].SetSquareState(SquareState.Disponible);
+                squareRangeList.Add(squareAllList[i]);
+            }
+        }
+    }
+
+    void DeselectAllRandomSquare() {
+        foreach (SquareController squControl in squareAllList) {
+            if (squControl.GetSquareState() != SquareState.Seleccionada)
+                squControl.SetSquareState(SquareState.NoDisponible);
+        }
+        squareRangeList.Clear();
+    }
+
+    public void StartGame() {
+        isGameOver = false;
+        ReturnGameNormal();
+    }
+
     void GameOver() {
+        AudioManager.Instance.PlaySFX(Sound.gameOver);
         AchievementsController.Instance.DoLeadBoardPost(numberClicks);
         isGameOver = true;
         gameOverUI.ShowCanvas();
@@ -133,59 +189,6 @@ public class TableController : MonoBehaviour
         numbersBtwRandom = new Vector2Int(0, 100);
         GetRandomNumber();
         selectorController.ReturnGameNormal();
-    }
-
-    public void StartGame() {
-        isGameOver = false;
-        ReturnGameNormal();
-    }
-
-    void GetSquareRangeAvailable() {
-        numbersBtwRandom = new Vector2Int(0, numberSquareTable);
-        int higherNumber = 100;
-        int lowerNumber = 0;
-        SquareController higher = new SquareController(numberSquareTable);
-        SquareController lower= new SquareController(0);
-
-        GetRandomNumber();
-        
-        for (int i = 0; i < squareDisable.Count; i++) {
-            if (squareDisable[i].numberSquare > randomNumber) {
-                if(higherNumber > squareDisable[i].numberSquare) {
-                    higherNumber = squareDisable[i].numberSquare;
-                    higher = squareDisable[i];
-                    numbersBtwRandom.y = higherNumber;
-                }
-            }
-            else if (squareDisable[i].numberSquare < randomNumber) {
-                if (lowerNumber < squareDisable[i].numberSquare) {
-                    lowerNumber = squareDisable[i].numberSquare;
-                    lower = squareDisable[i];
-                    numbersBtwRandom.x = lowerNumber;
-                }
-            }
-        }
-
-        Debug.Log(lower.numberSquare + " / " + higher.numberSquare);
-        numbersBtwRandom = new Vector2Int(lower.GetSquareId(), higher.GetSquareId());
-        DrawSquareTable();
-    }
-
-    void DrawSquareTable() {
-        for (int i = numbersBtwRandom.x; i < numbersBtwRandom.y; i++) {
-            if (squareAllList[i].GetSquareState() != SquareState.Seleccionada) {
-                squareAllList[i].SetSquareState(SquareState.Disponible);
-                squareRangeList.Add(squareAllList[i]);
-            }
-        }
-    }
-
-    void DeselectAllRandomSquare() {
-        foreach (SquareController squControl in squareAllList) {
-            if (squControl.GetSquareState() != SquareState.Seleccionada)
-                squControl.SetSquareState(SquareState.NoDisponible);
-        }
-        squareRangeList.Clear();
     }
 
     void AddClick() {

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
@@ -61,9 +59,11 @@ public class ChangeMenuController : MonoBehaviour
     void FadeIn(RectTransform rectTranformMenu, CanvasGroup canvasGroupMenu) {
         rectTranformMenu.transform.localPosition = new Vector3(0, newPositions.x, 0);
         rectTranformMenu.DOAnchorPos(new Vector2(0, 0), speedChange, false).SetEase(Ease.InOutQuint);
-        canvasGroupMenu.DOFade(1, speedChange);
-        canvasGroupMenu.blocksRaycasts = true;
+        canvasGroupMenu.DOFade(1, speedChange).OnComplete(() => {
+            canvasGroupMenu.blocksRaycasts = true;
+        });
     }
+
 
     void FadeOut(RectTransform rectTranformMenu, CanvasGroup canvasGroupMenu) {
         canvasGroupMenu.blocksRaycasts = false;

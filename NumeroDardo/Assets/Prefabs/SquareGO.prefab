@@ -276,12 +276,6 @@ MonoBehaviour:
   squareState: 0
   idSquare: 0
   numberSquare: 0
-  timeChangeColor: 0.2
-  timeChangeColorSelector: 0.1
-  textPosition: {x: 0, y: 120}
-  textPositionDown: {x: 0, y: -60}
-  seleccionadaColor: {r: 1, g: 0.07075471, b: 0.07075471, a: 1}
-  DisponibleColor: {r: 1, g: 1, b: 1, a: 1}
-  NoDisponibleColor: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 1}
+  squareData: {fileID: 11400000, guid: 8f5fa0fc7941dde459f9707508e634b9, type: 2}
   numberIdText: {fileID: 5311929962924444288}
   rectTransformText: {fileID: 5373491781544809253}

@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
-using DG.Tweening;
 using UnityEngine;
 
 public class MainMenuUI : MonoBehaviour
@@ -27,33 +24,45 @@ public class MainMenuUI : MonoBehaviour
     int pageHow=0;
 
     private void Awake() {
+
+    }
+
+    private void Start() {
         playButton.onClick.AddListener(() => {
+            AudioManager.Instance.PlaySFX(Sound.pressButton);
+            BannerAdExample.Instance.ShowBannerAd();
             PlayGame();
         });
 
         howButton.onClick.AddListener(() => {
+            AudioManager.Instance.PlaySFX(Sound.pressButton);
             ShowHowToPlay();
         });
 
         archivesButton.onClick.AddListener(() => {
+            AudioManager.Instance.PlaySFX(Sound.pressButton);
             ShowAchievementsUI();
         });
 
         moreButton.onClick.AddListener(() => {
+            AudioManager.Instance.PlaySFX(Sound.pressButton);
             ShowLeaderBordUI();
         });
 
 
 
         backHowButton.onClick.AddListener(() => {
+            AudioManager.Instance.PlaySFX(Sound.pressButton);
             ShowMainMenu();
         });
 
         rightHowButton.onClick.AddListener(() => {
+            AudioManager.Instance.PlaySFX(Sound.pressButton);
             GetNextCaptura(true);
         });
 
         leftHowButton.onClick.AddListener(() => {
+            AudioManager.Instance.PlaySFX(Sound.pressButton);
             GetNextCaptura(false);
         });
     }

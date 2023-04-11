@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using GooglePlayGames;
@@ -16,6 +14,7 @@ public class AchievementsController : MonoBehaviour
     private static AchievementsController instace;
 
     [SerializeField] AchievementPoint [] achievementList;
+    [SerializeField] GameObject particleWin;
 
     private void Start() {
         instace = this;
@@ -29,6 +28,8 @@ public class AchievementsController : MonoBehaviour
         foreach(AchievementPoint achievement in achievementList) {
             if(achievement.points == newPoints) {
                 CompleteAchievment(achievement.idAchievement);
+                particleWin.SetActive(true);
+                AudioManager.Instance.PlaySFX(Sound.victory);
                 return;
             }
         }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
@@ -23,14 +21,7 @@ public class SquareController : MonoBehaviour
     [SerializeField] SquareState squareState;
     [SerializeField] int idSquare = 0;
     public int numberSquare = 0;
-    [SerializeField] float timeChangeColor;
-
-    [SerializeField] Vector2 textPosition = new Vector2(0,80);
-    [SerializeField] Vector2 textPositionDown = new Vector2(0,-80);
-
-    [SerializeField] Color seleccionadaColor;
-    [SerializeField] Color DisponibleColor;
-    [SerializeField] Color NoDisponibleColor;
+    [SerializeField] SquareDataSO squareData;
 
     [Header("UI")]
     [SerializeField] TextMeshProUGUI numberIdText;
@@ -64,21 +55,21 @@ public class SquareController : MonoBehaviour
     void ChangeColorSquare() {
         switch (squareState) {
             case SquareState.Seleccionada:
-                squareImage.DOColor(seleccionadaColor, timeChangeColor);
+                squareImage.DOColor(squareData.seleccionadaColor, squareData.timeChangeColor);
                 break;
 
             case SquareState.Disponible:
-                squareImage.DOColor(DisponibleColor, timeChangeColor);
+                squareImage.DOColor(squareData.disponibleColor, squareData.timeChangeColor);
                 break;
 
             case SquareState.NoDisponible:
-                squareImage.DOColor(NoDisponibleColor, timeChangeColor);
+                squareImage.DOColor(squareData.noDisponibleColor, squareData.timeChangeColor);
                 break;
         }
     }
 
     public void AnimSquare() {
-        squareImage.color = Color.green;
+        squareImage.color = squareData.selectorColor;
         ChangeColorSquare();
     }
 
@@ -92,9 +83,9 @@ public class SquareController : MonoBehaviour
 
     void SetNumberTextPosition() {
         if (idSquare % 2 == 0)
-            rectTransformText.localPosition = textPosition;
+            rectTransformText.localPosition = squareData.textPosition;
         else
-            rectTransformText.localPosition = textPositionDown;
+            rectTransformText.localPosition = squareData.textPositionDown;
     }
 
     public void DeselectSquare() {
