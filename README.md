@@ -1,4 +1,4 @@
-# Number Launcher
+![alt text](https://github.com/Skopjie/ImagenesProyectos/blob/main/grafico.png)
 
 Play it [here](https://play.google.com/store/apps/developer?id=Skopjie&hl=es&gl=US)!
 ## About
@@ -9,6 +9,7 @@ Numbers is a casual arcade project that is inspired by the game “Blind Number 
 
 The game is about putting random numbers in their corresponding places, this task is complicated since the user depends on his reflexes to place them at the right time. Try to get the highest score and get to the top of the Ranking!
 
+![alt text](https://github.com/Skopjie/ImagenesProyectos/blob/main/recortada.png)
 ## Plugins/ Tools
 
 | Name | Type | Utility
