@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//All audios
 public enum Sound {
     pressButton,
     victory,
@@ -75,7 +76,6 @@ public class AudioManager : MonoBehaviour {
         else
             crossVolumeImage.SetActive(true);
     }
-
 
     public void PlaySFX(Sound sound) {
         if (soundIsActive) {
