@@ -2093,6 +2093,7 @@ GameObject:
   - component: {fileID: 824850556}
   - component: {fileID: 824850555}
   - component: {fileID: 824850554}
+  - component: {fileID: 824850558}
   - component: {fileID: 824850557}
   m_Layer: 5
   m_Name: PanelHow
@@ -2174,6 +2175,26 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &824850558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824850551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 686b11a9e0a074a40805c1dc059a9413, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backHowButton: {fileID: 1303257331}
+  rightHowButton: {fileID: 1413834964}
+  leftHowButton: {fileID: 1272369690}
+  pageNumberText: {fileID: 15990623}
+  capturasImage:
+  - {fileID: 2059836093}
+  - {fileID: 1087597818}
+  - {fileID: 1369406452}
 --- !u!1 &856324532
 GameObject:
   m_ObjectHideFlags: 0
@@ -9930,14 +9951,6 @@ MonoBehaviour:
   howButton: {fileID: 1720239019}
   archivesButton: {fileID: 533942252}
   moreButton: {fileID: 707191142}
-  backHowButton: {fileID: 1303257331}
-  rightHowButton: {fileID: 1413834964}
-  leftHowButton: {fileID: 1272369690}
-  pageNumberText: {fileID: 15990623}
-  capturasImage:
-  - {fileID: 2059836093}
-  - {fileID: 1087597818}
-  - {fileID: 1369406452}
 --- !u!225 &1497866513
 CanvasGroup:
   m_ObjectHideFlags: 0

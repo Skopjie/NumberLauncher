@@ -11,8 +11,6 @@ public enum SquareState {
 
 public class SquareController : MonoBehaviour
 {
-    //squareTransform.DOLocalMove(new Vector3(0, 5, 0), 2).SetEase(Ease.InOutSine).SetLoops(1, LoopType.Yoyo);
-
     [Header("Componentes")]
     [SerializeField] Image squareImage;
     [SerializeField] RectTransform squareTransform;
